@@ -99,3 +99,41 @@ Este circuito convierte la señal PWM del ESP32 en una señal analógica adecuad
 | R3 (preamp) | 25 kΩ | Entre patitas 1 y 2 del LM324N (feedback) | Es tu potenciómetro B25K (no es resistencia fija) |
 | R1 (filtro RC) | 270 Ω | Desde GPIO 25 del ESP32 al nodo A | Rojo, Violeta, Marrón, Dorado |
 | R2 (filtro RC) | 100 Ω | Desde nodo A al nodo B (segunda etapa) | Marrón, Negro, Marrón, Dorado |
+
+## 💻 Software - Estructura del Código MicroPython
+
+El proyecto está organizado en módulos para facilitar el mantenimiento y la extensibilidad:
+
+### Archivos del Proyecto
+
+- **`main.py`** - Programa principal que configura el sistema y maneja el bucle principal
+- **`config.py`** - Todas las constantes de configuración (pines, frecuencias, parámetros de efectos)
+- **`audio_io.py`** - Manejo de entrada/salida de audio (ADC y PWM)
+- **`effects.py`** - Implementación de efectos de audio (overdrive, delay)
+
+### Cómo Usar el Código
+
+1. **Sube los archivos al ESP32** usando Thonny o tu IDE preferido
+2. **Configura los efectos** editando las variables en `main.py`:
+   ```python
+   ENABLE_OVERDRIVE = True   # Cambiar a True para activar overdrive
+   ENABLE_DELAY = False      # Cambiar a True para activar delay
+   ```
+3. **Ajusta parámetros** en `config.py` según necesites:
+   - `OVERDRIVE_GAIN` - Ganancia del efecto overdrive
+   - `OVERDRIVE_THRESHOLD` - Umbral de clipping
+   - `DELAY_AMOUNT` - Cantidad de mezcla de delay (0.0 a 1.0)
+
+### Características del Software
+
+- **Muestreo en tiempo real** a 20kHz para calidad de audio profesional
+- **Procesamiento asíncrono** usando timers del ESP32
+- **Buffer circular** para efectos de delay
+- **Monitor de nivel** en tiempo real para debugging
+- **Modular y extensible** - fácil agregar nuevos efectos
+
+### Flujo de Audio
+
+1. **Entrada**: Guitarra → LM324N → ADC (GPIO 34)
+2. **Procesamiento**: Efectos configurados (overdrive, delay)
+3. **Salida**: PWM (GPIO 25) → Filtro RC → Auriculares/Amplificador
