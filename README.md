@@ -89,3 +89,13 @@ Este circuito convierte la señal PWM del ESP32 en una señal analógica adecuad
 - Usa un pin PWM del ESP32 que soporte alta frecuencia (ej: GPIO 25, 26, 32)
 - Configura el PWM a una frecuencia de al menos 31.25kHz para buena calidad de audio
 - El filtro RC elimina la componente de alta frecuencia del PWM, dejando solo la señal de audio
+
+## 📋 Tabla de Referencia Rápida de Componentes
+
+| Referencia | Valor | Ubicación en el circuito | Código de colores (1ra, 2da, 3ra, 4ta) |
+|------------|-------|-------------------------|----------------------------------------|
+| R1 (preamp) | 1 MΩ | Patita 3 del LM324N a GND | Marrón, Negro, Verde, Dorado |
+| R2 (preamp) | 10 kΩ | Patita 2 del LM324N a GND | Marrón, Negro, Naranja, Dorado |
+| R3 (preamp) | 25 kΩ | Entre patitas 1 y 2 del LM324N (feedback) | Es tu potenciómetro B25K (no es resistencia fija) |
+| R1 (filtro RC) | 270 Ω | Desde GPIO 25 del ESP32 al nodo A | Rojo, Violeta, Marrón, Dorado |
+| R2 (filtro RC) | 100 Ω | Desde nodo A al nodo B (segunda etapa) | Marrón, Negro, Marrón, Dorado |
