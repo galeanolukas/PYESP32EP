@@ -53,3 +53,39 @@ El LM324N tiene 14 patitas. Nos vamos a concentrar en las del primer amplificado
 1. La señal de salida la tomas de la patita 1.
 2. Coloca el capacitor de 10µF en serie con la señal de salida (positivo hacia la patita 1, negativo hacia el ESP32). Esto elimina cualquier voltaje DC no deseado.
 3. Conecta el otro lado del capacitor a un pin ADC del ESP32, por ejemplo, el GPIO 34.
+
+## Hardware - Circuito de Salida PWM + Filtro RC
+
+### Componentes del Circuito de Salida
+
+| Componente | Cantidad | Notas |
+|------------|----------|-------|
+| Resistencia 270Ω | 1 | Parte del filtro PWM |
+| Resistencia 100Ω | 1 | Parte del filtro PWM |
+| Capacitor cerámico 10nF (103) | 1 | Filtro pasa-bajos |
+| Capacitor cerámico 100nF (104) | 1 | Filtro adicional |
+| Jack 3.5mm hembra | 1 | Para conectar auriculares |
+| Resistencia 100kΩ | 1 | Pull-down opcional en salida |
+
+### 🔌 Conexión del Circuito de Salida
+
+Este circuito convierte la señal PWM del ESP32 en una señal analógica adecuada para auriculares o amplificadores.
+
+**Configuración del Filtro RC**
+
+1. Conecta la resistencia de 270Ω en serie con la salida PWM del ESP32
+2. Conecta la resistencia de 100Ω después de la resistencia de 270Ω
+3. Conecta el capacitor de 10nF (103) entre la unión de las dos resistencias y GND
+4. Conecta el capacitor de 100nF (104) en paralelo con el de 10nF para un filtrado adicional
+
+**Salida hacia Auriculares**
+
+1. Toma la señal filtrada del punto entre las dos resistencias
+2. Conecta esta señal al pin "tip" del jack 3.5mm hembra
+3. Conecta el pin "sleeve" del jack a GND
+4. Opcional: Coloca la resistencia de 100kΩ como pull-down en la salida para evitar ruido cuando no hay señal
+
+**Recomendaciones:**
+- Usa un pin PWM del ESP32 que soporte alta frecuencia (ej: GPIO 25, 26, 32)
+- Configura el PWM a una frecuencia de al menos 31.25kHz para buena calidad de audio
+- El filtro RC elimina la componente de alta frecuencia del PWM, dejando solo la señal de audio
